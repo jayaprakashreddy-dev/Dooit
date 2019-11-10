@@ -1,3 +1,7 @@
+import 'package:dooit/Jatin/Logo.dart';
+import 'package:dooit/Jatin/NumberEntry.dart';
+import 'package:dooit/Jatin/OtpEnter.dart';
+import 'package:dooit/Success.dart';
 import 'package:flutter/material.dart';
 import './Jatin/JHome.dart';
 // import 'package:flutter/material.dart';
@@ -15,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -41,14 +46,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     
     return MaterialApp(
+      home: Logo(),
       debugShowCheckedModeBanner: false,
-      home: DevelopersIndex(),
       routes: <String,WidgetBuilder>{
           'JatinHome':(BuildContext context) => new JatinHome(),
           'VamshiHome':(BuildContext context) => new VamshiHome(),
           'LaxmaHome':(BuildContext context) => new LaxmaHome(),
           // 'VamshiHome':(BuildContext context) => new Home(),
           'SankethHome':(BuildContext context) => new SankethHome(),
+          // 'OtpPage':(BuildContext context) => new OtpEnter(),
+           'NumberEntry':(BuildContext context) => new NumberEntry(),
+           
+           'Success':(BuildContext context) => new Success(),
 
       },
     );

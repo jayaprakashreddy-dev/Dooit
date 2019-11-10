@@ -22,8 +22,20 @@ class _JatinHomeState extends State<JatinHome> {
       ),
       body: Container(
         child: Center(
-         child:Text("Start coding here  ALL THE BEST!!!",style: TextStyle(color: Colors.green,fontSize: SizeConfig.blockSizeVertical *3.0,),),
-        )
+
+         child:Column(
+           children: <Widget>[
+               Text("Start coding here  ALL THE BEST!!!",style: TextStyle(color: Colors.green,fontSize: SizeConfig.blockSizeVertical *3.0,),),
+              RaisedButton(
+                child: Text("Otp"),
+                onPressed: (){
+                  Navigator.pushNamed(context, "OtpPage");
+                },
+              )
+           ],
+         )
+              ),
+
         
       ),
       ),
