@@ -16,49 +16,85 @@ class _LogoState extends State<Logo> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-      body: Container(
-        child: ListView(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              // Padding(
+      body:Column(
+          children: <Widget>[
+      Container(
+      height: MediaQuery.of(context).size.height*0.6,
+        width: MediaQuery.of(context).size.width*1,
+        child:Padding(
+          padding: EdgeInsets.only(top: 50.0),
+          child:ShowImage("logo"),),
 
-              
-              //     padding: EdgeInsets.only(top:SizeConfig.blockSizeVertical * 5.09,bottom: SizeConfig.blockSizeVertical * 5.24),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/20,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/2.16,
-                width: MediaQuery.of(context).size.width/1,
-                              child:ShowImage("logo"),
-                ),
-                 Padding(
-
-                  padding: EdgeInsets.only(top:SizeConfig.blockSizeVertical * 20,bottom:15.4,left: 9.6),
-                  child: Text("Start DOOing with DOO.it",style:TextStyle(color:Colors.black,fontWeight: FontWeight.bold,fontSize: SizeConfig.blockSizeVertical * 3)),
-                 ),
-                 SizedBox(
-                   height: MediaQuery.of(context).size.height/20,
-                   child: RaisedButton(
-                     child: Text("Enter your mobile number"),
-                     onPressed: (){
-                       Navigator.pushNamed(context, "NumberEntry");
-                     },
-                   ),
-                 )
-                //  Padding(
-
-                //   padding: EdgeInsets.only(top:SizeConfig.blockSizeVertical * 0,bottom:5.4,left: 9.6),
-                //   child:,
-                //  )
-
-            ],
-          )
-        ],
-        ),
       ),
-    ),
+      Container(
+          height: MediaQuery.of(context).size.height*0.4,
+          width: MediaQuery.of(context).size.height*1,
+
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 100.0),
+                child: Text(
+                  "Start DOOing with DOO.it",
+                  style: TextStyle(
+                    fontSize: 28.0,
+                    color: Colors.black,
+                    fontWeight:FontWeight.bold,
+                  )
+              ),
+              ),
+              Row(
+                children: <Widget>[
+
+
+              Padding(
+                padding: EdgeInsets.only(top: 44.0,bottom: 10.0),
+
+                child: SizedBox(
+                  height: 60.0,
+                 width: MediaQuery.of(context).size.width*1,
+                 child: RaisedButton(
+                 child :Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 25.0),
+                    child:SizedBox(
+                      height: 40.0,
+                      width: 50.0,
+                      child: ShowImage("india"),
+                    ),
+                  ),
+
+                  Text("     +91     ",
+                      style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
+                  Text("Enter your mobile number",
+                  style: TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.black38,
+
+      )),
+],                 ),
+
+                  onPressed: (){
+                    Navigator.pushNamed(context, "NumberEntry");
+                  },
+                ),
+              ),
+              )
+                ],
+              )
+            ],
+          ),
+      ),
+          ],
+      )
+      )
     );
   }
 }

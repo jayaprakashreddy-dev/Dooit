@@ -48,14 +48,19 @@ class OtpEnter extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       // key: _scaffoldkey,
+       resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
+     automaticallyImplyLeading: true,
         backgroundColor: Colors.white,
         leading: new IconButton(
+          onPressed: (){
+
+          },
           icon: new Icon(Icons.arrow_back, color: Colors.red),
         ),
+        elevation: 0.0,
       ),
-      body: ListView(children: <Widget>[
-      Column(
+      body: ListView(
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2.0,left: SizeConfig.blockSizeHorizontal*10, right: SizeConfig.blockSizeHorizontal*5.0),
@@ -63,11 +68,14 @@ class OtpEnter extends StatelessWidget {
             //  width:282.0,
             //  height:44.0,
 
-             child:   Text(
+            child: Column(
+              children: <Widget>[
+                Text(
                   "Please enter 6-digit Otp sent to  your mobile number",
                   style: TextStyle(fontSize: SizeConfig.blockSizeVertical*2.6, fontWeight: FontWeight.bold),
                 ),
-             
+              ],
+            ),
           ),
           new Container(
               padding:
@@ -77,9 +85,8 @@ class OtpEnter extends StatelessWidget {
                 children: <Widget>[
                   new TextFormField(
                     maxLength: 6,
-                    controller: OtpEntered,
                     decoration: new InputDecoration(
-                      labelText: "Enter your OTP",
+                      labelText: "Enter your number",
                       hintStyle: null,
                     ),
                     keyboardType: TextInputType.number,
@@ -88,84 +95,62 @@ class OtpEnter extends StatelessWidget {
               )),
           Container(
             padding:
-               EdgeInsets.only(top: SizeConfig.blockSizeVertical* 57.0, left: SizeConfig.blockSizeHorizontal* 1.2, right: SizeConfig.blockSizeHorizontal* 39.0),
+               EdgeInsets.only(top: SizeConfig.blockSizeVertical* 56.0, left: SizeConfig.blockSizeHorizontal* 9.5, right: SizeConfig.blockSizeHorizontal* 7.0),
 
             //  width:282.0,
             //  height:44.0,
 
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  "Resend Code in 00:05",
-                  style: TextStyle(fontSize:SizeConfig.blockSizeVertical* 2.3, fontWeight: FontWeight.w300),
+               new Column(
+                   children: <Widget>[
+               new Text(
+                  "Resend Code in 00:05      ",
+                  style: TextStyle(fontSize:SizeConfig.blockSizeVertical* 2.2, fontWeight: FontWeight.w300),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            padding:
-               EdgeInsets.only(top: SizeConfig.blockSizeVertical* 1.0, left: SizeConfig.blockSizeHorizontal* 3.0, right: SizeConfig.blockSizeHorizontal* 34.0),
-
-            //  width:282.0,
-            //  height:44.0,
-
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Edit my mobile number",
+             
+              new Text(
+                  "  Edit my mobile number",
                   style: TextStyle(
                       color: Colors.red,
                       fontSize: SizeConfig.blockSizeVertical* 2.5,
                       fontWeight: FontWeight.w400),
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      ],),
-      floatingActionButton: FloatingActionButton(
-        
+                ],
+                ),
+           
+                SizedBox( 
+                  height:48.0,
+                  width:50.0,  
+                  child: new  FloatingActionButton(
+        onPressed: () {},
 
         child: Icon(
           Icons.arrow_forward,
           color: Colors.white,
         ),
         backgroundColor: Colors.red,
-        onPressed: ()async {
-          print("befoe");
-         
-            Map data={
-              "phone":MobileEntered.text,
-              "otp":OtpEntered.text
-            };
-            var jsonResponse;
-            var response =await http.post("http://34.93.104.9:3000/api/login",body: data);
-            print("aftrer");
-            if(response.statusCode==200)
-            {
-               jsonResponse = json.decode(response.body);
-              // jsonData=json
-              print(
-              "s");
-
-              print(jsonResponse);
-              if(jsonResponse['success']==true)
-              {
-                print("true");
-                Navigator.pushNamed(context, "Success");
-              }
-              else{
-                // OtpError();
-                // callSnackBar("Please Enter correct OTP");
-              }
-            }
-          
-
-
-        },
 //  FloatingActionButtonLocation.centerFloat,
       ),
+                ),
+
+                  
+          
+          // Container(
+          //   padding:
+          //      EdgeInsets.only(top: SizeConfig.blockSizeVertical* 0.0, left: SizeConfig.blockSizeHorizontal* 8.5, right: SizeConfig.blockSizeHorizontal* 8.0),
+
+            //  width:282.0,
+            //  height:44.0,
+
+           
+             ],
+            ),
+          ),
+        ],
+      ),
+      // floatingActionButton:
     );
-  }
+   }
 }
