@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dooit/Arrangements/SizeModification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../Info/variables.dart' as global;
 import 'package:flutter/material.dart' as prefix0;
 import 'package:http/http.dart' as http;
 
@@ -30,19 +31,6 @@ class OtpEnter extends StatelessWidget {
     _scaffoldkey.currentState.showSnackBar(SnackBar);
   }
 
-  // Widget OtpError(){
-
-  //   return ListView(
-  //     children: <Widget>[
-  //       Text("Please Enter correct OTP"),
-  //     ],
-  //   );
-  // }
-
-  OtpEnter(this.MobileEntered);
-  final MobileEntered;
-  
-  final TextEditingController OtpEntered =new TextEditingController();
   @override
    Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -77,7 +65,7 @@ class OtpEnter extends StatelessWidget {
                 children: <Widget>[
                   new TextFormField(
                     maxLength: 6,
-                    controller: OtpEntered,
+                    controller: global.OtpEntered,
                     decoration: new InputDecoration(
                       labelText: "Enter your OTP",
                       hintStyle: null,
@@ -136,8 +124,8 @@ class OtpEnter extends StatelessWidget {
           print("befoe");
          
             Map data={
-              "phone":MobileEntered.text,
-              "otp":OtpEntered.text
+              "phone":global.MobileNumber.text,
+              "otp":global.OtpEntered.text
             };
             var jsonResponse;
             var response =await http.post("http://34.93.104.9:3000/api/login",body: data);

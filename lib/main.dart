@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
           'LaxmaHome':(BuildContext context) => new LaxmaHome(),
           // 'VamshiHome':(BuildContext context) => new Home(),
           'SankethHome':(BuildContext context) => new SankethHome(),
-          // 'OtpPage':(BuildContext context) => new OtpEnter(),
+          'OtpPage':(BuildContext context) => new OtpEnter(),
            'NumberEntry':(BuildContext context) => new NumberEntry(),
            
            'Success':(BuildContext context) => new Success(),

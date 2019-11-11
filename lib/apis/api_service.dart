@@ -11,15 +11,10 @@
 
 
 
-import 'package:flutter/cupertino.dart';
-
-class Controllers {
-
-  String MobileNumberInput;
-    
-  // final TextEditingController MobileNumberInput=new TextEditingController();
-  final TextEditingController OtpEnteredInput =new TextEditingController();
-}
+import 'dart:convert';
+import '../Info/variables.dart' as global;
+import 'package:http/http.dart' as http;
+// import 'package:flutter/cupertino.dart';
 
 
 // class ApiService{
@@ -59,7 +54,27 @@ class Controllers {
 //                 print("smtg fishy");
 //               }
 //             }
+
           
 //   }
 
 // }
+
+
+class ApiService {
+
+
+                Future CallPost()async{
+                    await   http.post(
+                                  "${global.url}/signup",
+                                  // "http://34.93.104.9:3000/api/signup",
+                                  body: json.encode({
+                                    "phone": global.MobileNumber.text
+                                  }),
+                              headers: {"Accept": "application/json","Content-type": "application/json",},
+                               ).then((http.Response response) {
+                                          return response;
+                                      }
+                                  );
+                        }
+}
