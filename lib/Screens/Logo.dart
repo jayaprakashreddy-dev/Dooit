@@ -3,6 +3,8 @@ import 'package:dooit/Arrangements/SizeModification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import '../Info/variables.dart' as global;
+import '../Success.dart';
 
 class Logo extends StatefulWidget{
   @override
@@ -14,7 +16,7 @@ class _LogoState extends State<Logo> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     // TODO: implement build
-    return MaterialApp(
+    return global.isLogged? Success():MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
       body:Column(

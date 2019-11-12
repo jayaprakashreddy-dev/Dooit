@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../Info/variables.dart' as global;
 import 'package:flutter/material.dart' as prefix0;
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
 
 // class OtpEnter extends StatefulWidget{
 //   @override
@@ -34,12 +35,17 @@ class OtpEnter extends StatelessWidget {
   @override
    Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
+    return 
+     Scaffold(
       // key: _scaffoldkey,
       appBar: new AppBar(
         backgroundColor: Colors.white,
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back, color: Colors.red),
+          onPressed: (){
+            print("going back from otp page");
+            Navigator.pushNamed(context,"NumberEntry");
+          },
         ),
       ),
       body: ListView(children: <Widget>[
@@ -113,8 +119,6 @@ class OtpEnter extends StatelessWidget {
       ),
       ],),
       floatingActionButton: FloatingActionButton(
-        
-
         child: Icon(
           Icons.arrow_forward,
           color: Colors.white,
@@ -141,7 +145,23 @@ class OtpEnter extends StatelessWidget {
               if(jsonResponse['success']==true)
               {
                 print("true");
-                Navigator.pushNamed(context, "Success");
+                global.token=jsonResponse['token'];
+                print(global.token);
+                print("object");
+                global.isLogged=true;
+                if(jsonResponse['active']==true)
+                {
+                  print("active user");
+                // Navigator.pushNamed(context, "HomeScreen");
+                Navigator.pushNamed(context,"AccountPage");
+                }
+                else if(jsonResponse['active']==false)
+                {
+                  print("new user");
+                Navigator.pushNamed(context, "SignUpPage");
+                // Navigator.pushNamed(context, );
+                }
+                
               }
               else{
                 // OtpError();

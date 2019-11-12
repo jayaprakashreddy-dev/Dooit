@@ -36,7 +36,11 @@ class _NumberEntryState extends State<NumberEntry> {
         backgroundColor: Colors.white,
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back, color: Colors.red),
+          onPressed: (){
+            Navigator.pushNamed(context, "LogoScreen");
+          },
         ),
+        
       ),
       body: ListView(
         children: <Widget>[

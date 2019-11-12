@@ -1,6 +1,7 @@
-import 'package:dooit/Jatin/Logo.dart';
-import 'package:dooit/Jatin/NumberEntry.dart';
-import 'package:dooit/Jatin/OtpEnter.dart';
+
+import 'package:dooit/Screens/Account.dart';
+import 'package:dooit/Screens/ProfileEdit.dart';
+import 'package:dooit/Screens/Signup.dart';
 import 'package:dooit/Success.dart';
 import 'package:flutter/material.dart';
 import './Jatin/JHome.dart';
@@ -9,7 +10,11 @@ import 'package:flutter/widgets.dart';
 import 'DevelopersIndex.dart';
 import 'Laxma/LHome.dart';
 import 'Sanketh/SHome.dart';
+import 'Screens/Logo.dart';
+import 'Screens/NumberEntry.dart';
+import 'Screens/OtpEnter.dart';
 import 'Vamshi/VHome.dart';
+import './Info/variables.dart' as global;
 
 void main() => runApp(MyApp());
 
@@ -46,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     
     return MaterialApp(
-      home: Logo(),
+      home: global.isLogged ? Success():Logo(),
       debugShowCheckedModeBanner: false,
       routes: <String,WidgetBuilder>{
           'JatinHome':(BuildContext context) => new JatinHome(),
@@ -56,8 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
           'SankethHome':(BuildContext context) => new SankethHome(),
           'OtpPage':(BuildContext context) => new OtpEnter(),
            'NumberEntry':(BuildContext context) => new NumberEntry(),
-           
+           'LogoScreen':(BuildContext context) => new Logo(),
            'Success':(BuildContext context) => new Success(),
+           'HomeScreen':(BuildContext context) => new VamshiHome(),
+           'AccountPage':(BuildContext context) => new AccountDetails(),
+           'SignUpPage':(BuildContext context) => new SignUp(),
+           'ProfileEdit':(BuildContext context) => new ProfileEdit(),
+
 
       },
     );
