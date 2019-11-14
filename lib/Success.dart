@@ -20,7 +20,13 @@ class _SuccessState extends State<Success> {
       ),
       body: Container(
         child: Center(
-         child:Text("You are successssfully Logged in",style: TextStyle(color: Colors.green,fontSize: SizeConfig.blockSizeVertical *3.0,),),
+        //  child:Text("You are successssfully Logged in",style: TextStyle(color: Colors.green,fontSize: SizeConfig.blockSizeVertical *3.0,),),
+          child: RaisedButton(
+            child: Text("click"),
+            onPressed: (){
+              Navigator.pushNamed(context, "HomeScreen");
+            },
+          ),
         ) ),
     )
     );
