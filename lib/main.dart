@@ -1,7 +1,9 @@
 
 import 'package:dooit/Screens/Account.dart';
+import 'package:dooit/Screens/CityPage.dart';
 import 'package:dooit/Screens/ProfileEdit.dart';
 import 'package:dooit/Screens/Signup.dart';
+import 'package:dooit/Screens/homeScreen.dart';
 import 'package:dooit/Success.dart';
 import 'package:flutter/material.dart';
 import './Jatin/JHome.dart';
@@ -51,11 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     
     return MaterialApp(
-      home: global.isLogged ? Success():Logo(),
+      home:Logo(),
       debugShowCheckedModeBanner: false,
       routes: <String,WidgetBuilder>{
           'JatinHome':(BuildContext context) => new JatinHome(),
-          'VamshiHome':(BuildContext context) => new VamshiHome(),
+          // 'VamshiHome':(BuildContext context) => new VamshiHome(),
           'LaxmaHome':(BuildContext context) => new LaxmaHome(),
           // 'VamshiHome':(BuildContext context) => new Home(),
           'SankethHome':(BuildContext context) => new SankethHome(),
@@ -63,10 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
            'NumberEntry':(BuildContext context) => new NumberEntry(),
            'LogoScreen':(BuildContext context) => new Logo(),
            'Success':(BuildContext context) => new Success(),
-           'HomeScreen':(BuildContext context) => new VamshiHome(),
+           'HomeScreen':(BuildContext context) => new HomeScreen(),
            'AccountPage':(BuildContext context) => new AccountDetails(),
            'SignUpPage':(BuildContext context) => new SignUp(),
            'ProfileEdit':(BuildContext context) => new ProfileEdit(),
+           
+           'CitiesPage':(BuildContext context) => new City(),
 
 
       },

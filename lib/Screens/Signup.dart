@@ -24,7 +24,7 @@ class _SignUpState extends State<SignUp> {
           color:Colors.red),
           
           onPressed: (){
-            Navigator.pushNamed(context,"OtpPage");
+            Navigator.pushNamed(context,"LogoScreen");
           },
         ),
         

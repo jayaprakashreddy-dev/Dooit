@@ -13,10 +13,17 @@ class Logo extends StatefulWidget{
 
 class _LogoState extends State<Logo> {
   @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   print("token is"+global.token);
+  // }
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     // TODO: implement build
-    return global.isLogged? Success():MaterialApp(
+    return
+     global.token!=null? Success():MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
       body:Column(

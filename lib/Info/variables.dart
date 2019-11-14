@@ -9,12 +9,15 @@ import 'package:flutter/cupertino.dart';
 
 final TextEditingController OtpEntered =new TextEditingController();
 final TextEditingController MobileNumber =new TextEditingController();
-bool isLogged=false;
-String token="r";
-var UserName="";
-var EmailId="j";
-var ReferralCode="j";
+// bool isLogged=false;
+var token=null;
+var UserName="No User Name";
+var EmailId="No Emal";
+var ReferralCode="No Code";
 var coins="0";
+var City;
+var UserCity;
+
 
 
 TextEditingController UserNameController =new TextEditingController();

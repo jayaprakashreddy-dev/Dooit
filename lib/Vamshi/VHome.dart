@@ -4,19 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-// class VamshiVamshiHome extends StatefulWidget{
+// class VamshiVamshiHomeNot extends StatefulWidget{
 //   @override
-//   _VamshiVamshiHomeState createState() => _VamshiVamshiHomeState();
+//   _VamshiVamshiHomeNotState createState() => _VamshiVamshiHomeNotState();
 // }
 
-// class _VamshiVamshiHomeState extends State<VamshiVamshiHome> {
+// class _VamshiVamshiHomeNotState extends State<VamshiVamshiHomeNot> {
 //   @override
 //   Widget build(BuildContext context) {
 //     SizeConfig().init(context);
 //     // TODO: implement build
 //     return MaterialApp(
 //       debugShowCheckedModeBanner: false,
-//       VamshiHome:Scaffold(
+//       VamshiHomeNot:Scaffold(
 //       appBar: AppBar(
 //         title: Text("Vamshi's Screens"),
 //       ),
@@ -39,12 +39,12 @@ import 'package:flutter/material.dart';
 
 
 
-class VamshiHome extends StatefulWidget {
+class VamshiHomeNot extends StatefulWidget {
   @override
-  _VamshiHomeState createState() => _VamshiHomeState();
+  _VamshiHomeNotState createState() => _VamshiHomeNotState();
 }
 
-class _VamshiHomeState extends State<VamshiHome> {
+class _VamshiHomeNotState extends State<VamshiHomeNot> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -146,7 +146,7 @@ class _VamshiHomeState extends State<VamshiHome> {
 class Workout extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    // VamshiHome:
+    // VamshiHomeNot:
     return new Scaffold(
       body:
     ListView(
@@ -234,7 +234,7 @@ class Workout extends StatelessWidget {
 class Packages extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    VamshiHome:
+    VamshiHomeNot:
     return ListView(
       children: <Widget>[
         Container(
@@ -629,11 +629,11 @@ class Packages extends StatelessWidget {
 //   _WorkoutState createState() => _WorkoutState();
 // }
 
-// class _WorkoutState extends State<JatinVamshiHome> {
+// class _WorkoutState extends State<JatinVamshiHomeNot> {
 //   @override
 //   Widget build(BuildContext context) {
 //     SizeConfig().init(context);
-//     VamshiHome:
+//     VamshiHomeNot:
 //     return ListView(
 //       children: <Widget>[
 //         Text("to be done"),
@@ -647,11 +647,11 @@ class Packages extends StatelessWidget {
 //   _PackagesState createState() => _PackagesState();
 // }
 
-// class _PackagesState extends State<JatinVamshiHome> {
+// class _PackagesState extends State<JatinVamshiHomeNot> {
 //   @override
 //   Widget build(BuildContext context) {
 //     SizeConfig().init(context);
-//     VamshiHome:
+//     VamshiHomeNot:
 //     return ListView(
 //       children: <Widget>[
 //         Text("to be done"),

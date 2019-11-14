@@ -26,7 +26,7 @@ class _AccountDetailsState extends State<AccountDetails> {
           color:Colors.red),
           
           onPressed: (){
-            Navigator.pushNamed(context,"OtpPage");
+            Navigator.pushNamed(context,"HomeScreen");
           },
         ),
         

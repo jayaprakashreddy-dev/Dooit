@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Info/variables.dart' as global;
+import 'package:http/http.dart' as http;
 
 class ProfileEdit extends StatefulWidget {
   @override
@@ -75,6 +78,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     height: MediaQuery.of(context).size.height * 0.09,
                     width: MediaQuery.of(context).size.width * 0.92,
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       controller: global.MobileNumber,
                       style: TextStyle(
                           fontSize: 18.0,
@@ -127,13 +131,62 @@ class _ProfileEditState extends State<ProfileEdit> {
                           side: BorderSide(color: Colors.red)
                            ),
                         elevation: 2.0,
-                        onPressed: () {
-                          global.EmailId=global.EmailIdController.text;
-                          global.UserName=global.UserNameController.text;
-                          // global.EmailId=global.EmailIdController.text;
-                          Navigator.pushNamed(context,"AccountPage");
+                       onPressed: ()async{
+          global.UserName=global.UserNameController.text;
+          global.EmailId=global.EmailIdController.text;
+          global.ReferralCode=global.ReferralCodeController.text;
 
-                        },
+
+          
+          Map data={
+            "name":global.UserName,
+            "email":global.EmailId,
+            "referalid":global.ReferralCode,
+              
+            };
+            var jsonResponse;
+            var response =await http.post("http://34.93.104.9:3000/api/account/firstlogin",body: data,headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
+            print("hitted");
+            if(response.statusCode==200)
+              {
+               jsonResponse = json.decode(response.body);
+              // jsonData=json
+              print("got response");
+              print(jsonResponse);
+              if(jsonResponse['success']==true)
+              {
+                if(jsonResponse["referalstatus"]==true)
+                {
+                print("true");
+                // print(jsonResponse['token']);
+                // print("object");
+                // global.isLogged=true;
+                print(global.UserName);
+                print(global.EmailId);
+                print(global.EmailIdController.text);
+                
+                Navigator.pushNamed(context, "SignUpPage");
+                }
+                else{
+                  print("no referral status");
+                   print(global.UserName);
+                print(global.EmailId);
+                print(global.UserName);
+                print(global.ReferralCode);
+                print(global.EmailIdController.text);
+                  global.ReferralCode="No";
+                   Navigator.pushNamed(context, "AccountPage");
+
+                }
+              }
+              else{
+                // OtpError();
+                // callSnackBar("Please Enter correct OTP");
+              }
+            }
+          
+
+        },
                       ))
                 ]),
           ),
