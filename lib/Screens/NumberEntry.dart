@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:http/http.dart' as http;
-import '../Info/variables.dart' as global;
+import '../Info/variables.dart' as global;  
 import '../Arrangements/ShowImage.dart';
 
 

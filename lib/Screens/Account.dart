@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:dooit/Arrangements/SizeModification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,29 @@ class AccountDetails extends StatefulWidget {
 }
 
 class _AccountDetailsState extends State<AccountDetails> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    CallForDetails();
+  }
+  CallForDetails()async{
+    var jsonResponse;
+    var response =await http.get("http://34.93.104.9:3000/api/account/getaccountdetails",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
+            print("hitted for account details");
+            if(response.statusCode==200)
+              {
+                print("success");
+                 jsonResponse = json.decode(response.body);
+                print(jsonResponse);
+                global.UserName=jsonResponse['account']['name'];
+                print(global.UserName);
+                // global.City=jsonResponse;
+                // print(global.City);
+                // print(global.City['cities']);
+                // print(global.City['cities'].length);
+              }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,10 +108,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                   width: 120.0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(110.0),
-                    child: Image(
-                      image: NetworkImage(
-                          'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
-                    ),
+                    child: Image.asset("images/userimg.png")
                   ),
                 ),
                 SizedBox(

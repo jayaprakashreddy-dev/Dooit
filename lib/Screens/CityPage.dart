@@ -17,26 +17,33 @@ class City extends StatefulWidget {
 class _CityState extends State<City> {
    var jsonResponse;
 
-//  @override
-// void initState(){
-//             super.initState();
-//             getCities();
-//   }
-// getCities() async
-// {
-//   var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
-//             print("hitted");
-//             if(response.statusCode==200)
-//               {
-//                  jsonResponse = json.decode(response.body);
-//                 print(jsonResponse);
-//                 global.City=jsonResponse;
-//               }
-// }
+ @override
+void initState(){
+            super.initState();
+            getCities();
+  }
+getCities() async
+{
+  var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
+            print("hitted");
+            if(response.statusCode==200)
+              {
+                 jsonResponse = json.decode(response.body);
+                print(jsonResponse);
+                global.City=jsonResponse;
+                print(global.City);
+                print(global.City['cities']);
+                print(global.City['cities'].length);
+              }
+}
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: (){
+        Navigator.popAndPushNamed(context,"HomeScreen");
+      },
+   child: new Scaffold(
       appBar: new AppBar(
         
         // title:
@@ -45,7 +52,7 @@ class _CityState extends State<City> {
           icon: new Icon(Icons.arrow_back, color: Colors.red),
           onPressed: (){
             print("going back from otp page");
-            Navigator.pushNamed(context,"NumberEntry");
+            Navigator.pushNamed(context,"HomeScreen");
           },
         ),
       ),
@@ -104,29 +111,28 @@ class _CityState extends State<City> {
     Divider(thickness: 1.0,color: Colors.black26,),
      SizedBox(
        height: MediaQuery.of(context).size.height*8/10,
-     child: Expanded(
-            child: global.City['cities'].length == 0
-                ? Center(
-                    child: Text('loading'),
-                 )
-                  : ListView.builder(
+    
+            child:  ListView.builder(
                   // controller: _scrollController,
                   itemCount: global.City['cities'].length,
                   itemBuilder: (context, index) {
                     return Card(child:ListTile(
-                      // leading: CircleAvatar(
-                      //   backgroundImage: NetworkImage(global.City[index].data['image']),
-                      // ),
-                      // contentPadding: EdgeInsets.all(5),
-                      title: Text(global.City[index]['cities']),
-                      // subtitle: Text("Price Starts from ₹ "+global.City[index].data['price']),
-                      // dense: true,
+                      leading: CircleAvatar(
+                        // backgroundImage: ,
+                        child:Image.asset("images/cityLogo.png"),
+                        // NetworkImage("url"),
+                      ),
+                      contentPadding: EdgeInsets.all(5),
+                      title: Text(global.City['cities'][index].toString()),
+                    
+                      // subtitle:
                       onLongPress: (){
                         //  global.CityData(index);
                         // Navigator.pushNamed(context, "ContactForm");
                       },
                       onTap: (){
                         
+                        print(global.City['cities'][index].toString());
                         
                       },
                       // onTap:(){
@@ -150,90 +156,39 @@ class _CityState extends State<City> {
                     ));
                   },
                 ),
-        ),
-    // ListView.separated(
-    //           itemCount: global.City['cities'].length,
-    //           separatorBuilder: (context, index) {
-    //             return Divider(height: 10,);
-    //           },
-    //           itemBuilder: (context, index) {
-    //             return RaisedButton(
-    //               color: Colors.white,
-    //               child:  ListTile(
-    //               leading: ShowImage("cityLogo"),
-    //               title: Text(
-    //                 global.City['cities'][index].toString(),
-    //                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-    //               ),
-    //               // subtitle: Text(global.City['cities'].toString()),
+        
+    // // ListView.separated(
+    // //           itemCount: global.City['cities'].length,
+    // //           separatorBuilder: (context, index) {
+    // //             return Divider(height: 10,);
+    // //           },
+    // //           itemBuilder: (context, index) {
+    // //             return RaisedButton(
+    // //               color: Colors.white,
+    // //               child:  ListTile(
+    // //               leading: ShowImage("cityLogo"),
+    // //               title: Text(
+    // //                 global.City['cities'][index].toString(),
+    // //                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    // //               ),
+    // //               // subtitle: Text(global.City['cities'].toString()),
                  
-    //             ),
-    //             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-    //             onPressed: (){
-    //               global.UserCity=global.City['cities'][index].toString();
-    //               print("user's city is "+global.City['cities'][index].toString());
-    //               Navigator.pushNamed(context,"HomeScreen");
+    // //             ),
+    // //             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+    // //             onPressed: (){
+    // //               global.UserCity=global.City['cities'][index].toString();
+    // //               print("user's city is "+global.City['cities'][index].toString());
+    // //               Navigator.pushNamed(context,"HomeScreen");
 
-    //             },
-    //             );
-    //           },
+    // //             },
+    // //             );
+    // //           },
               
-    //         )  
+    // //         )  
       )
        ],
-      ));
+      ))
+    );
   }
 }
-      
-      
-      // Container(
-      //   child: RaisedButton(
-      //     child: Text("cli"),
-      //     onPressed: ()async{
-      //         var jsonResponse;
-      //       var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
-      //       print("hitted");
-      //       if(response.statusCode==200)
-      //         {
-      //            jsonResponse = json.decode(response.body);
-      //           print(jsonResponse);
-      //         }
-      //     },
-      //   ),
-      // )
-      //  FutureBuilder(
-      //   future: ApiService.getCities(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       final City = snapshot.data;
-      //       print("jp"+City);
-      //       return ListView.separated(
-      //         separatorBuilder: (context, index) {
-      //           return Divider(height: 2, color: Colors.black,);
-      //         },
-      //         itemBuilder: (context, index) {
-      //           return ListTile(
-      //             title: Text(
-      //               City['cities'],
-      //               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      //             ),
-      //             subtitle: Text(City['cities']),
-      //             onTap: () {
-      //               // Navigator.push(
-      //               //   context,
-      //               //   MaterialPageRoute(
-      //               //     builder: (context) => Post(City[index]['id'])
-      //               //   )
-      //               // );
-      //             },
-      //           );
-      //         },
-      //         itemCount: City.length,
-      //       );
-      //     }
-      //     return Center(child: CircularProgressIndicator(),);
-      //   },
-      // ),
-//     );
-//   }
-// } 
+     

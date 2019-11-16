@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dooit/Arrangements/SizeModification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Info/variables.dart' as global;
 import 'package:flutter/material.dart' as prefix0;
 import 'package:http/http.dart' as http;
@@ -33,17 +34,17 @@ class OtpEnter extends StatelessWidget {
     _scaffoldkey.currentState.showSnackBar(SnackBar);
   }
 
-  getCities() async
-{
-  var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
-            print("hitted");
-            if(response.statusCode==200)
-              {
-                 jsonResponse = json.decode(response.body);
-                print(jsonResponse);
-                global.City=jsonResponse;
-              }
-}
+//   getCities() async
+// {
+//   var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
+//             print("hitted");
+//             if(response.statusCode==200)
+//               {
+//                  jsonResponse = json.decode(response.body);
+//                 print(jsonResponse);
+//                 global.City=jsonResponse;
+//               }
+// }
 
   @override
    Widget build(BuildContext context) {
@@ -166,18 +167,20 @@ class OtpEnter extends StatelessWidget {
                 global.token=jsonResponse['token'];
                 print(global.token);
                 print("object");
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('token',global.token);
                 // global.isLogged=true;
                 if(jsonResponse['active']==true)
                 {
                   print("active user");
-                  getCities();
+                  // getCities();
                 Navigator.pushNamed(context, "HomeScreen");
                 // Navigator.pushNamed(context,"AccountPage");
                 // Navigator.pushNamed(context,"CitiesPage");
                 }
                 else if(jsonResponse['active']==false)
                 {
-                  getCities();
+                  // getCities();
                   print("new user");
                 Navigator.pushNamed(context, "SignUpPage");
                 // Navigator.pushNamed(context, );

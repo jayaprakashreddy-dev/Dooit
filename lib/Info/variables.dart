@@ -17,6 +17,7 @@ var ReferralCode="No Code";
 var coins="0";
 var City;
 var UserCity;
+bool login=false;
 
 
 

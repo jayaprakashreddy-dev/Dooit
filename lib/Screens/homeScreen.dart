@@ -1,5 +1,12 @@
 // import 'package:./ASizeModification.dart';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dooit/Arrangements/ShowImage.dart';
+import 'package:dooit/Screens/CityPage.dart';
+import 'package:flutter/material.dart' as prefix0;
+import '../Info/variables.dart' as global;
+import 'package:http/http.dart' as http;
 
 import '../Arrangements/SizeModification.dart';
 // import 'package:flutter/cupertino.dart';
@@ -16,6 +23,63 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
+  final GlobalKey<ScaffoldState> _scaffoldKey=GlobalKey<ScaffoldState>();
+
+  void callSnackBar(String msg,[int er])
+  {
+    
+      // msg="There is no record with this user, please register first by clicking Register or check the user mail id or Password";
+      final SnackBar=new prefix0.SnackBar(
+      content: new Text(msg),
+      duration: new Duration(seconds: 10),
+      action: new SnackBarAction(label: "Exit",
+      onPressed: (){
+        // Navigator.pushNamed(context, "Register");
+        exit(0);
+      },),
+    );
+     _scaffoldKey.currentState.showSnackBar(SnackBar);
+    
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetPackages();
+  }
+  GetPackages()async{
+
+     Map data={
+       "workplaceid":"5dcaec152fadc609ce3254cd",
+       "category":"silver",
+       "ptype":"standard"
+     };
+    var jsonResponse;
+            var response =await http.post("http://34.93.104.9:3000/api/account/getpackages",body: data,headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token});
+            print("aftrer");
+            if(response.statusCode==200)
+            {
+               jsonResponse = json.decode(response.body);
+              // jsonData=json
+              print(
+              "s");
+              print(global.token);
+              print(jsonResponse);
+              if(jsonResponse['success']==true)
+              {
+                print("true");
+                // global.token=jsonResponse['packages'];
+                print(global.token);
+              }
+
+            }
+  
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -25,7 +89,12 @@ class _HomeScreenState extends State<HomeScreen> {
           fontSize: MediaQuery.of(context).size.height / 31.0);
     }
 
-    return MaterialApp(
+    return prefix0.WillPopScope(
+      onWillPop: (){
+        callSnackBar("Click Exit to leave app");
+      },
+    
+   child: MaterialApp(
       theme: ThemeData(primaryColor: Colors.white, accentColor: Colors.red),
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(
@@ -36,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
       home: new DefaultTabController(
         length: 2,
         child: new Scaffold(
+          key: _scaffoldKey,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(MediaQuery.of(context).size.height /
                 6.5), // here the desired height
@@ -64,12 +134,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           heightFactor:
                               MediaQuery.of(context).size.height / 400,
                           widthFactor: MediaQuery.of(context).size.width / 380,
-                          child: Text("                   Delhi Ncr",
+                          child: InkWell(
+                          child:Text("                   Delhi Ncr",
                               style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.height / 45,
                                 fontWeight: FontWeight.w400,
                               )),
+                              onTap: (){
+                                City();
+                                // prefix0.Navigator.popAndPushNamed(context,"CitiesPage");
+                                Navigator.pushNamed(context, "CitiesPage");
+                              },
+                          )
                         ),
                         // new Align(
                         //   alignment: Alignment.centerRight,
@@ -87,7 +164,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             // color: Colors.white,
                          child: ShowImage("userimg",),
                          onTap: (){
-                           Navigator.pushNamed(context,"AccountPage");
+                          //  Navigator.pushNamed(context,"LogoScreen");
+                          Navigator.pushNamed(context,"AccountPage");
+
                          },
                           ),
                         ),
@@ -119,6 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    
+    )
     );
   }
 }
@@ -132,734 +213,902 @@ class Packages extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     home:
-    return ListView(
-      children: <Widget>[
-         new Container(
-           height: MediaQuery.of(context).size.height *0.12,
-           width: MediaQuery.of(context).size.width *0.98,
-          // padding: EdgeInsets.only(
-          //   top: SizeConfig.blockSizeVertical*2,
-          //   left: SizeConfig.blockSizeHorizontal*2,
-          //   right: SizeConfig.blockSizeVertical*2,
-          // ),
-          child: Row(
+    return ListView(children: <Widget>[
+      Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Column(
             children: <Widget>[
-              new Container(
-                height: SizeConfig.blockSizeVertical*8,
-                width:  SizeConfig.blockSizeHorizontal * 55.5,
-                //   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 14,
-                //   left: MediaQuery.of(context).size.width/5,),
-                padding: EdgeInsets.only(
-                  // top: MediaQuery.of(context).size.height / 39,
-                  left:  SizeConfig.blockSizeHorizontal * 1.7,
-                ),
-                child: Column(
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.09,
+                width: MediaQuery.of(context).size.height * 0.5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('GOLD TRAINER PACKS',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w600,
-                        ),),
-                    Text('Cult Galleria ,                                           ',
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'GOLD TRAINER PACKS',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          'Cult Galleria',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          'All CENTERS',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          // RaisedButton(
+                          //   // onPressed: () =>modal(context),
+                          //   // child:new Text('modal'),
+                          //   color: Colors.white,
+                          //   elevation: 4.0,
+                          //   child: Column(
+                          //     //crossAxisAlignment: CrossAxisAlignment.center,
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: <Widget>[
+                          //       Text(
+                          //         '5 Sessions',
+                          //         style: TextStyle(
+                          //           color: Colors.black,
+                          //           fontWeight: FontWeight.w700,
+                          //           //fontSize:SizeConfig.blockSizeVertical*2.5,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 7990 ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(0.6),
+                          //           decoration: TextDecoration.lineThrough,
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.022,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 6990 ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(1.0),
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.035,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 1398/session ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(0.6),
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.016,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   onPressed: () => gym(context),
+                          // ),
+                          // RaisedButton(
+                          //   // onPressed: () =>modal(context),
+                          //   // child:new Text('modal'),
+                          //   color: Colors.white,
+                          //   elevation: 4.0,
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: <Widget>[
+                          //       Text(
+                          //         '5 Sessions',
+                          //         style: TextStyle(
+                          //           color: Colors.black,
+                          //           fontWeight: FontWeight.w700,
+                          //           //fontSize:SizeConfig.blockSizeVertical*2.5,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 7990 ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(0.6),
+                          //           decoration: TextDecoration.lineThrough,
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.022,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 6990 ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(1.0),
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.035,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 1398/session ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(0.6),
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.016,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   onPressed: () => gym(context),
+                          // ),
+                          // RaisedButton(
+                          //   // onPressed: () =>modal(context),
+                          //   // child:new Text('modal'),
+                          //   color: Colors.white,
+                          //   elevation: 4.0,
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: <Widget>[
+                          //       Text(
+                          //         '5 Sessions',
+                          //         style: TextStyle(
+                          //           color: Colors.black,
+                          //           fontWeight: FontWeight.w700,
+                          //           //fontSize:SizeConfig.blockSizeVertical*2.5,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 7990 ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(0.6),
+                          //           decoration: TextDecoration.lineThrough,
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.022,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 6990 ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(1.0),
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.035,
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         '₹ 1398/session ',
+                          //         style: TextStyle(
+                          //           color: Colors.black.withOpacity(0.6),
+                          //           fontSize:
+                          //               MediaQuery.of(context).size.height *
+                          //                   0.016,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   onPressed: () => gym(context),
+                          // ),
+                          RaisedButton(
+                            // onPressed: () =>modal(context),
+                            // child:new Text('modal'),
+                            color: Colors.white,
+                            elevation: 4.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  '5 Sessions',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    //fontSize:SizeConfig.blockSizeVertical*2.5,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 7990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.022,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 6990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(1.0),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.035,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 1398/session ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () => gym(context),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.09,
+                width: MediaQuery.of(context).size.height * 0.5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'SILVER TRAINER PACKS',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          'Cult Galleria',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'All CENTERS',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          RaisedButton(
+                            // onPressed: () =>modal(context),
+                            // child:new Text('modal'),
+                            color: Colors.white,
+                            elevation: 4.0,
+                            child: Column(
+                              //crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  '5 Sessions',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    //fontSize:SizeConfig.blockSizeVertical*2.5,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 7990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.022,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 6990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(1.0),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.035,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 1398/session ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () => gym(context),
+                          ),
+                          RaisedButton(
+                            // onPressed: () =>modal(context),
+                            // child:new Text('modal'),
+                            color: Colors.white,
+                            elevation: 4.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  '5 Sessions',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    //fontSize:SizeConfig.blockSizeVertical*2.5,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 7990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.022,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 6990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(1.0),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.035,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 1398/session ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () => gym(context),
+                          ),
+                          RaisedButton(
+                            // onPressed: () =>modal(context),
+                            // child:new Text('modal'),
+                            color: Colors.white,
+                            elevation: 4.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  '5 Sessions',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    //fontSize:SizeConfig.blockSizeVertical*2.5,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 7990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.022,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 6990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(1.0),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.035,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 1398/session ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () => gym(context),
+                          ),
+                          RaisedButton(
+                            // onPressed: () =>modal(context),
+                            // child:new Text('modal'),
+                            color: Colors.white,
+                            elevation: 4.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  '5 Sessions',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    //fontSize:SizeConfig.blockSizeVertical*2.5,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 7990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.022,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 6990 ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(1.0),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.035,
+                                  ),
+                                ),
+                                Text(
+                                  '₹ 1398/session ',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () => gym(context),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.30,
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Image.asset('images/poster.png'),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.86,
+                child: Text(
+                  'ACTIVE PACKAGES',
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.90,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 1.5,
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      child: Image.asset('images/poster.png'),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Gold Trainer 5 Sessions',
+                          style: TextStyle(
+                            color: Colors.black,
+                            // fontSize:  SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Fusion Gym',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.7),
+                            fontWeight: FontWeight.w400,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.1,
+                          ),
+                        ),
+                        Text(
+                          '4/5 Left',
+                          style: TextStyle(
+                            color: Colors.red,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.90,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 1.0,
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      child: Image.asset('images/poster.png'),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Gold Trainer 10 Sessions',
+                          style: TextStyle(
+                            color: Colors.black,
+                            // fontSize:  SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Fusion Gym',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.7),
+                            fontWeight: FontWeight.w400,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.1,
+                          ),
+                        ),
+                        Text(
+                          'Awaiting',
+                          style: TextStyle(
+                            color: Colors.red,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.30,
+                width: MediaQuery.of(context).size.width * 0.90,
+                // child: Image.asset('images/poster.png'),
+                child: RaisedButton(
+                  color: Colors.grey,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Share & earn',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            '100 DoDo \n   Coins',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.9,
+                        width: MediaQuery.of(context).size.width * 0.40,
+                        child: Image.asset('images/poster.png'),
+                      )
+                    ],
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.86,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'REDEEM DoDo coins',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black),
+                        ),
+                        Text(
+                          'Cult Galleria',
+                          style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black),
+                        )
+                      ],
+                    ),
+                    Text(
+                      'All CENTERS',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-
-                        fontSize: SizeConfig.blockSizeVertical * 1.7,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
               ),
-              new Container(
-                // decoration: n,
-                height: SizeConfig.blockSizeVertical*8,
-                width: SizeConfig.blockSizeHorizontal * 41,
-                //   paddi3ng: EdgeInsets.only(top: MediaQuery.of(context).size.height / 14,
-                //   left: MediaQuery.of(context).size.width/5,),
-
-                padding: EdgeInsets.only(
-                  // top: MediaQuery.of(context).size.height / 550,
-                  left:  SizeConfig.blockSizeHorizontal * 1,
-                  // bottom:MediaQuery.of(context).size.height  *0.8,
-                ),
-                child: Column(
-                  children: <Widget>[
-                  //  RaisedButton(
-                  //    padding: EdgeInsets.only(top:0.0,bottom:0.0,),
-                  //    color: Colors.black,
-                  //    child:
-                      Text('      All CENTERS',
+              SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  width: MediaQuery.of(context).size.width * 0.86,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Balance',
                         style: TextStyle(
+                          fontSize: 20.0,
                           color: Colors.red,
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.blockSizeVertical * 2.6,
-                        ),),
-                  ],
-                ),
-              ),
-            ],
-          ),   
-          
-        ),
-        new Container(
-           height: MediaQuery.of(context).size.height*0.15,
-           width: MediaQuery.of(context).size.width*0.95,
-           alignment: Alignment.topLeft,
-            child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              new Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height* 0.12,
-                      width: MediaQuery.of(context).size.height* 0.20,
-                      child: RaisedButton(
-                      // onPressed: () =>modal(context),
-                      // child:new Text('modal'),
-
-                      color: Colors.white,
-                      elevation: 4.0,
-                       child: Column(
-                        
-                         children: <Widget>[
-                      Text('5 Sessions',
-                      style:TextStyle(
-                      color:Colors.black,
-                      fontWeight:FontWeight.w700,
-                      fontSize:SizeConfig.blockSizeVertical*2.5,
-                    ),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    Text('₹ 7990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               decoration: TextDecoration.lineThrough,
-                               fontSize: MediaQuery.of(context).size.height*0.022,
-                    ),),
-                    Text('₹ 6990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(1.0),
-                               fontSize: MediaQuery.of(context).size.height*0.035,
-                    ),),
-                    Text('₹ 1398/session ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               fontSize: MediaQuery.of(context).size.height*0.016,
-                    ),),
-                                        
-
-                         ],
-                       ),
-                       onPressed: () =>gym(context),
-                        
-           
-                    ),
-                    ),                    
-                  ],
-                ),
-              ),
-              new Container(
-                child: Column(
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            '100',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.86,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height* 0.12,
-                      width: MediaQuery.of(context).size.height*0.20,
-                      child: RaisedButton(
+                    RaisedButton(
                       color: Colors.white,
-                      elevation: 4.0,
-                       child: Column(
-                        
-                         children: <Widget>[
-                           Text('11 Sessions',
-                    style:TextStyle(
-                      color:Colors.black,
-                      fontWeight:FontWeight.w700,
-                      fontSize:SizeConfig.blockSizeVertical*2.5,
-                    ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('1 Gold Session'),
+                          Divider(
+                            indent: 2.0,
+                            thickness: 2.0,
+                            color: Colors.black,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                '100',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  //color: Colors.red,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                    Text('₹ 17590 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               decoration: TextDecoration.lineThrough,
-
-                               fontSize: MediaQuery.of(context).size.height*0.022,
-                    ),),
-                    Text('₹ 12990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(1.0),
-                               fontSize: MediaQuery.of(context).size.height*0.035,
-                    ),),
-                    Text('₹ 1180/session ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               fontSize: MediaQuery.of(context).size.height*0.018,
-                    ),),
-                         ],
-                       ),
-                    
-                    onPressed: ()=>gym(context),
+                      onPressed: () {},
                     ),
-                    ),                    
-                  ],
-                ),
-              ),
-           new Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height* 0.12,
-                      width: MediaQuery.of(context).size.height* 0.20,
-                      child: RaisedButton(
+                    RaisedButton(
                       color: Colors.white,
-                      elevation: 4.0,
-                       child: Column(
-                        
-                         children: <Widget>[
-                           Text('25 Sessions',
-                    style:TextStyle(
-                      color:Colors.black,
-                      fontWeight:FontWeight.w700,
-                      fontSize:SizeConfig.blockSizeVertical*2.5,
-                    ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('1 Gold Session'),
+                          Divider(
+                            thickness: 1.0,
+                            color: Colors.black45,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                '100',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                    Text('₹ 39990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               decoration: TextDecoration.lineThrough,
-
-                               fontSize: MediaQuery.of(context).size.height*0.022,
-                    ),),
-                    Text('₹ 25990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(1.0),
-                               fontSize: MediaQuery.of(context).size.height*0.035,
-                    ),),
-                    Text('₹ 1039/session ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               fontSize: MediaQuery.of(context).size.height*0.018,
-                    ),),
-                         ],
-                       ),
-                    
-                    onPressed: () =>gym(context),
-                    ),
-                    ),                    
+                      onPressed: () {},
+                    )
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-        new Container(
-          height: MediaQuery.of(context).size.height *0.12,
-          width: MediaQuery.of(context).size.width*0.95,          
-          child: Row(
-            children: <Widget>[
-              new Container(
-                height: SizeConfig.blockSizeVertical*8,
-                width:  SizeConfig.blockSizeHorizontal * 55.5,
-                padding: EdgeInsets.only(
-                  left:  SizeConfig.blockSizeHorizontal * 1.7,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Text('SILVER TRAINER PACKS',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w600,
-                        ),),
-                    Text('Cult Galleria ,                                           ',
-                      style: TextStyle(
+              Padding(
+                padding: EdgeInsets.only(top: 15.0),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  width: MediaQuery.of(context).size.width * 0.86,
+                  child: Text(
+                    'INACTIVE PACKAGES',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: 15.0,
                         color: Colors.black,
-                        fontWeight: FontWeight.w400,
-
-                        fontSize: SizeConfig.blockSizeVertical * 1.7,
-                      ),
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.90,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 1.5,
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      child: Image.asset('images/poster.png'),
                     ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Gold Trainer 5 Sessions',
+                          style: TextStyle(
+                            color: Colors.black,
+                            // fontSize:  SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Fusion Gym',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.7),
+                            fontWeight: FontWeight.w400,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.1,
+                          ),
+                        ),
+                        Text(
+                          '4/5 Left',
+                          style: TextStyle(
+                            color: Colors.red,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
-              new Container(
-                height: SizeConfig.blockSizeVertical*8,
-                width: SizeConfig.blockSizeHorizontal * 41,
-                padding: EdgeInsets.only(
-                  left:  SizeConfig.blockSizeHorizontal * 1,                ),
-                child: Column(
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.90,
+                child: Row(
                   children: <Widget>[
-                      Text('All CENTERS',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w600,
-
-                          fontSize: SizeConfig.blockSizeVertical * 2.6,
-                        ),),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 1.0,
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      child: Image.asset('images/poster.png'),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Gold Trainer 5 Sessions',
+                          style: TextStyle(
+                            color: Colors.black,
+                            // fontSize:  SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Fusion Gym',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.7),
+                            fontWeight: FontWeight.w400,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.1,
+                          ),
+                        ),
+                        Text(
+                          '0/10 Left',
+                          style: TextStyle(
+                            color: Colors.red,
+                            //fontSize: SizeConfig.blockSizeVertical * 2.6,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
-            ],
-          ),   
-          
-        ),
-           new Container(
-           height: MediaQuery.of(context).size.height*0.15,
-           width: MediaQuery.of(context).size.width*1,
-          // alignment: Alignment.topLeft,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              new Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height* 0.12,
-                      width: MediaQuery.of(context).size.height* 0.20,
-                      child: RaisedButton(
+              SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: Center(
+                    child: RaisedButton(
                       color: Colors.white,
-                      elevation: 4.0,
-                       child: Column(
-                        
-                         children: <Widget>[
-                           Text('5 Sessions',
-                    style:TextStyle(
-                      color:Colors.black,
-                      fontWeight:FontWeight.w700,
-                      fontSize:SizeConfig.blockSizeVertical*2.5,
+                      child: Text('Show More +'),
+                      onPressed: () {},
                     ),
-                      ),
-                    Text('₹ 7990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               decoration: TextDecoration.lineThrough,
-
-                               fontSize: MediaQuery.of(context).size.height*0.022,
-                    ),),
-                    Text('₹ 6990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(1.0),
-                               fontSize: MediaQuery.of(context).size.height*0.035,
-                    ),),
-                    Text('₹ 1398/session ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               fontSize: MediaQuery.of(context).size.height*0.018,
-                    ),),
-                         ],
-                       ),
-                    
-                    onPressed: ()=>gym(context),
-                    ),
-                    ),                    
-                  ],
+                  )),
+              Padding(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                child: Divider(
+                  color: Colors.black38,
+                  thickness: 1.5,
                 ),
               ),
-              new Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height* 0.12,
-                      width: MediaQuery.of(context).size.height* 0.20,
-                      child: RaisedButton(
-                      color: Colors.white,
-                      elevation: 4.0,
-                       child: Column(
-                        
-                         children: <Widget>[
-                           Text('11 Sessions',
-                    style:TextStyle(
-                      color:Colors.black,
-                      fontWeight:FontWeight.w700,
-                      fontSize:SizeConfig.blockSizeVertical*2.5,
-                    ),
-                      ),
-                    Text('₹ 17590 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               decoration: TextDecoration.lineThrough,
-
-                               fontSize: MediaQuery.of(context).size.height*0.022,
-                    ),),
-                    Text('₹ 12990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(1.0),
-                               fontSize: MediaQuery.of(context).size.height*0.035,
-                    ),),
-                    Text('₹ 1180/session ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               fontSize: MediaQuery.of(context).size.height*0.018,
-                    ),),
-                         ],
-                       ),
-                    
-                    onPressed: ()=>gym(context),
-                    ),
-                    ),                    
-                  ],
-                ),
-              ),
-              new Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height* 0.12,
-                      width: MediaQuery.of(context).size.height* 0.20,
-                      child: RaisedButton(
-                      color: Colors.white,
-                      elevation: 4.0,
-                       child: Column(
-                        
-                         children: <Widget>[
-                           Text('25 Sessions',
-                    style:TextStyle(
-                      color:Colors.black,
-                      fontWeight:FontWeight.w700,
-                      fontSize:SizeConfig.blockSizeVertical*2.5,
-                    ),
-                      ),
-                    Text('₹ 39990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               decoration: TextDecoration.lineThrough,
-
-                               fontSize: MediaQuery.of(context).size.height*0.022,
-                    ),),
-                    Text('₹ 25990 ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(1.0),
-                               fontSize: MediaQuery.of(context).size.height*0.035,
-                    ),),
-                    Text('₹ 1039/session ',
-                             style: TextStyle(
-                               color: Colors.black.withOpacity(0.6),
-                               fontSize: MediaQuery.of(context).size.height*0.018,
-                    ),),
-                         ],
-                       ),
-                    
-                    onPressed: () =>gym(context),
-                    ),
-                    ),                    
-                  ],
-                ),
-              ),
-             
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.35,
+                width: MediaQuery.of(context).size.width * 0.85,
+                child: Image.asset('images/why_buy_pack.png'),
+              )
             ],
-          ),
-        ),
-        Image.asset('images/poster.png'),
-
-        new Container(
-          height: MediaQuery.of(context).size.height *0.07,
-          width: MediaQuery.of(context).size.width*0.95,
-          padding: EdgeInsets.only(
-            // bottom: MediaQuery.of(context).size.height*0.02,
-          ),          
-          child: Row(
-            children: <Widget>[
-              new Container(
-                height: SizeConfig.blockSizeVertical*5,
-                width:  SizeConfig.blockSizeHorizontal * 47,
-                
-                child: Column(
-                  children: <Widget>[
-                    
-                    Text('ACTIVE PACKAGES',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w600,
-                    ),
-                   ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        new Container(
-          height: MediaQuery.of(context).size.height *0.12,
-          width: MediaQuery.of(context).size.width*0.95, 
-          padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height*0.02,
-          ),
-          child: Row(
-            children: <Widget>[
-              
-              new Container(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width*0.06,
-                ),
-                height: MediaQuery.of(context).size.height*0.09,
-                // width: MediaQuery.of(context).size.width*0.3,
-                
-                child: Row(
-                  children: <Widget>[
-                    Image.asset('images/row3image.png'),
-                    
-                    
-                  ],
-                ),
-              ),
-                new Container(
-                      height: MediaQuery.of(context).size.height*0.09,
-                      // width: MediaQuery.of(context).size.width*0.4,
-                      child: Column(
-                        children: <Widget>[
-                          Text('Gold Trainer 5 Sessions ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w700,
-                        ),),
-                    Text('           Fusion Gym                                            ',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.7),
-                        fontWeight: FontWeight.w400,
-
-                        fontSize: SizeConfig.blockSizeVertical * 2.1,
-                      ),
-                    ),
-                    Text('  4/5 Left                                ',
-                    style:TextStyle(
-                      color: Colors.red,
-                      fontSize: SizeConfig.blockSizeVertical * 2.6,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                  
-                    
-                        ],
-                      ),
-                    ),
-            ],
-          ), 
-        ),
-        new Container(
-          height: MediaQuery.of(context).size.height *0.12,
-          width: MediaQuery.of(context).size.width*0.95, 
-          child: Row(
-            children: <Widget>[
-              
-              new Container(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width*0.06,
-                ),
-                height: MediaQuery.of(context).size.height*0.09,
-                // width: MediaQuery.of(context).size.width*0.3,
-                
-                child: Row(
-                  children: <Widget>[
-                    Image.asset('images/row3image.png'),
-                    
-                    
-                  ],
-                ),
-              ),
-                new Container(
-                      height: MediaQuery.of(context).size.height*0.09,
-                      // width: MediaQuery.of(context).size.width*0.4,
-                      child: Column(
-                        children: <Widget>[
-                          Text('Gold Trainer 10 Sessions ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w700,
-                        ),),
-                         Text('          Fusion Gym                                            ',
-                         style: TextStyle(
-                        color: Colors.black.withOpacity(0.7),
-                        fontWeight: FontWeight.w400,
-
-                        fontSize: SizeConfig.blockSizeVertical * 2.1,
-                      ),
-                    ),
-                    Text('         Awaiting Confirmation                   ',
-
-                    style:TextStyle(
-                      color: Colors.red,
-                      fontSize: SizeConfig.blockSizeVertical * 2.4,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                        ],
-                      ),
-                    ),
-            ],
-          ), 
-        ),
-        new Container(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width*0.03,
-            right: MediaQuery.of(context).size.width*0.03,
-            bottom: MediaQuery.of(context).size.height*0.02,
-          ),
-          child:
-        Image.asset('images/share&earn.png'),
-        ),
-        new Container(
-          height: MediaQuery.of(context).size.height *0.07,
-          width: MediaQuery.of(context).size.width*0.95,          
-          child: Row(
-            children: <Widget>[
-              new Container(
-                height: SizeConfig.blockSizeVertical*5,
-                width:  SizeConfig.blockSizeHorizontal * 47,
-                
-                child: Column(
-                  children: <Widget>[
-                    
-                    Text('INACTIVE PACKAGES',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w600,
-                    ),
-                   ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        new Container(
-          height: MediaQuery.of(context).size.height *0.12,
-          width: MediaQuery.of(context).size.width*0.95, 
-          padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height*0.02,
-          ),
-          child: Row(
-            children: <Widget>[
-              
-              new Container(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width*0.06,
-                ),
-                height: MediaQuery.of(context).size.height*0.09,
-                // width: MediaQuery.of(context).size.width*0.3,
-                
-                child: Row(
-                  children: <Widget>[
-                    Image.asset('images/row3image.png'),
-                    
-                    
-                  ],
-                ),
-              ),
-                new Container(
-                      height: MediaQuery.of(context).size.height*0.09,
-                      // width: MediaQuery.of(context).size.width*0.4,
-                      child: Column(
-                        children: <Widget>[
-                          Text('Gold Trainer 5 Sessions ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w700,
-                        ),),
-                    Text('           Fusion Gym                                            ',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.7),
-                        fontWeight: FontWeight.w400,
-
-                        fontSize: SizeConfig.blockSizeVertical * 2.1,
-                      ),
-                    ),
-                    Text('  0/5 Left                                ',
-                    style:TextStyle(
-                      color: Colors.red,
-                      fontSize: SizeConfig.blockSizeVertical * 2.6,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                  
-                    
-                        ],
-                      ),
-                    ),
-            ],
-          ), 
-        ),
-        new Container(
-          height: MediaQuery.of(context).size.height *0.12,
-          width: MediaQuery.of(context).size.width*0.95, 
-          child: Row(
-            children: <Widget>[
-              
-              new Container(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width*0.06,
-                ),
-                height: MediaQuery.of(context).size.height*0.09,
-                // width: MediaQuery.of(context).size.width*0.3,
-                
-                child: Row(
-                  children: <Widget>[
-                    Image.asset('images/row3image.png'),
-                    
-                    
-                  ],
-                ),
-              ),
-                new Container(
-                      height: MediaQuery.of(context).size.height*0.09,
-                      // width: MediaQuery.of(context).size.width*0.4,
-                      child: Column(
-                        children: <Widget>[
-                          Text('Gold Trainer 10 Sessions ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize:  SizeConfig.blockSizeVertical * 2.6,
-                          fontWeight: FontWeight.w700,
-                        ),),
-                         Text('          Fusion Gym                                            ',
-                         style: TextStyle(
-                        color: Colors.black.withOpacity(0.7),
-                        fontWeight: FontWeight.w400,
-
-                        fontSize: SizeConfig.blockSizeVertical * 2.1,
-                      ),
-                    ),
-                    Text('    0/10 left                                 ',
-
-                    style:TextStyle(
-                      color: Colors.red,
-                      fontSize: SizeConfig.blockSizeVertical * 2.4,
-                      fontWeight: FontWeight.w700,
-                    ),),
-                    
-                        ],
-                      ),
-                    ),
-                    
-            ],
-          ), 
-          
-        ),
-        new Container(
-          padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height*0.03,
-
-          ),
-          child: RaisedButton(
-            elevation: 1.0,
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Text('Show more +'),
-              ],
-            ),
-            onPressed: (){},
-          ),
-        ),
-        Image.asset('images/why_buy_pack.png'),
-      ],
+          )),
+    ]
     );
   }
-
 
 gym(BuildContext context) {
     showModalBottomSheet(
@@ -1558,3 +1807,21 @@ class _WorkoutState extends State<Workout> {
 //     );
 //   }
 // }
+
+
+// import 'dart:ffi';
+
+// import 'package:flutter/material.dart';
+
+// class HomeScreen extends StatefulWidget {
+//   HomeScreen({Key key}) : super(key: key);
+
+//   _HomeScreenState createState() => _HomeScreenState();
+// }
+
+// class _HomeScreenState extends State<HomeScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//     body:
+    

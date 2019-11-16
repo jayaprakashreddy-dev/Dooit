@@ -1,31 +1,55 @@
 import 'package:dooit/Arrangements/ShowImage.dart';
 import 'package:dooit/Arrangements/SizeModification.dart';
+import 'package:dooit/Screens/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../Info/variables.dart' as global;
 import '../Success.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class Logo extends StatefulWidget{
   @override
   _LogoState createState() => _LogoState();
 }
 
 class _LogoState extends State<Logo> {
+
+  SharedPreferences sharedPreferences;
+
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   print("token is"+global.token);
-  // }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  CheckingUser();
+    // print("token is"+global.token);
+  }
+
+  CheckingUser()async{
+    sharedPreferences=await SharedPreferences.getInstance();
+
+    setState(() {
+      global.token=sharedPreferences.getString("token");
+    });
+
+    print(global.token);
+    if(global.token!=null)
+    {
+      print("already user");
+      global.login=true;
+    }
+    // else
+    // {
+    //   global.token=false;
+    //   print("new user");
+    // }
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     // TODO: implement build
-    return
-     global.token!=null? Success():MaterialApp(
+    return global.login? HomeScreen():MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      home:Scaffold(
       body:Column(
           children: <Widget>[
             Container(
@@ -97,7 +121,7 @@ class _LogoState extends State<Logo> {
       ),
           ],
       )
-      )
+      ) 
     );
   }
 }
