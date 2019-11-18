@@ -20,7 +20,7 @@ class _LogoState extends State<Logo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  CheckingUser();
+    CheckingUser();
     // print("token is"+global.token);
   }
 
@@ -29,6 +29,13 @@ class _LogoState extends State<Logo> {
 
     setState(() {
       global.token=sharedPreferences.getString("token");
+      // global.City=sharedPreferences.getStringList("city");
+      // global.Packages=sharedPreferences.getStringList('packages');
+      // global.centers=sharedPreferences.getStringList('centers');
+
+      // print(global.Packages
+      // print(global.Packages);
+      // print(global.Packages);
     });
 
     print(global.token);

@@ -1,5 +1,6 @@
 
 import 'package:dooit/Screens/Account.dart';
+import 'package:dooit/Screens/Center.dart';
 import 'package:dooit/Screens/CityPage.dart';
 import 'package:dooit/Screens/ProfileEdit.dart';
 import 'package:dooit/Screens/Signup.dart';
@@ -69,9 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
            'AccountPage':(BuildContext context) => new AccountDetails(),
            'SignUpPage':(BuildContext context) => new SignUp(),
            'ProfileEdit':(BuildContext context) => new ProfileEdit(),
-           
            'CitiesPage':(BuildContext context) => new City(),
-
+           'Centers':(context) => new Centers(),
 
       },
     );

@@ -18,6 +18,16 @@ var coins="0";
 var City;
 var UserCity;
 bool login=false;
+var SelectedCity="Mumbai";
+var now=DateTime.now();
+var DayAfter;
+var SelectedId="5dcaebb32fadc609ce3254cb";
+var centers;
+var SelectedCenter;
+var SelectedIdAddress;
+var SelectedIdName;
+var Packages;
+int temp;
 
 
 

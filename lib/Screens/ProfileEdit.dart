@@ -13,7 +13,11 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: (){
+        Navigator.pushNamed(context,"AccountPage");
+      },
+    child:Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -43,10 +47,12 @@ class _ProfileEditState extends State<ProfileEdit> {
             child: Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(110.0),
-                child: Image(
-                  image: NetworkImage(
-                      'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
-                ),
+                child:  Image.asset("images/userimg.png"),
+                // Image(
+
+                //   image: NetworkImage(
+                //       'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
+                // ),
               ),
             ),
           ),
@@ -133,6 +139,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                         elevation: 2.0,
                        onPressed: ()async{
           global.UserName=global.UserNameController.text;
+          // global.UserName=global.MobileNumber.text;
           global.EmailId=global.EmailIdController.text;
           global.ReferralCode=global.ReferralCodeController.text;
 
@@ -195,6 +202,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     ),
         ],
       ),
+    )
     );
   }
 }

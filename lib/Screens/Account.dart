@@ -32,7 +32,11 @@ class _AccountDetailsState extends State<AccountDetails> {
                  jsonResponse = json.decode(response.body);
                 print(jsonResponse);
                 global.UserName=jsonResponse['account']['name'];
+                global.EmailId=jsonResponse['account']['email'];
+                global.MobileNumber.text=jsonResponse['account']['phone'];
                 print(global.UserName);
+                print(global.EmailId);
+                
                 // global.City=jsonResponse;
                 // print(global.City);
                 // print(global.City['cities']);
@@ -41,7 +45,11 @@ class _AccountDetailsState extends State<AccountDetails> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+    onWillPop: (){
+      Navigator.pushNamed(context,"HomeScreen");
+    },
+    child:Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -260,7 +268,12 @@ class _AccountDetailsState extends State<AccountDetails> {
                       'Contact Us',
                       textDirection: TextDirection.ltr,
                       style: TextStyle(fontSize: 20.0),
-                    )
+                    ),
+                     Text(
+                      'Sign out',
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(fontSize: 20.0),
+                    ),
                   ],
                 ),
                 Column(
@@ -294,6 +307,20 @@ class _AccountDetailsState extends State<AccountDetails> {
                         }
                       },
                     ),
+                    //  IconButton(
+                    //   // icon: Icon(
+                    //   //   Icons.phone,
+                    //   //   size: 26.0,
+                    //   // ),
+                    //   // tooltip: 'Contact us',
+                    //   onPressed: ()async {
+                    //   //   print("clicked for call");
+                    //   //   // setState(() {});
+                    //   //   if (await canLaunch("tel:919010590693")) {
+                    //   //  await launch("tel:919010590693");
+                    //   //   }
+                    //   },
+                    // ),
                   ],
                 )
               ],
@@ -302,6 +329,7 @@ class _AccountDetailsState extends State<AccountDetails> {
         )
       ],
     ))
+    )
     );
   }
 }

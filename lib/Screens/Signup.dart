@@ -174,7 +174,7 @@ class _SignUpState extends State<SignUp> {
                 print(global.EmailId);
                 print(global.EmailIdController.text);
                 
-                Navigator.pushNamed(context, "SignUpPage");
+                Navigator.pushNamed(context, "CitiesPage");
                 }
                 else{
                   print("no referral status");
@@ -184,7 +184,7 @@ class _SignUpState extends State<SignUp> {
                 print(global.ReferralCode);
                 print(global.EmailIdController.text);
                   global.ReferralCode="No";
-                   Navigator.pushNamed(context, "AccountPage");
+                   Navigator.pushNamed(context, "CitiesPage");
 
                 }
               }

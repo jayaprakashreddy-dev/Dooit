@@ -14,9 +14,16 @@ import 'package:share/share.dart';
 //   _OtpEnterState createState() => _OtpEnterState();
 // }
 
-class OtpEnter extends StatelessWidget {
+class OtpEnter extends StatefulWidget {
+  @override
+  _OtpEnterState createState() => _OtpEnterState();
+}
+
+class _OtpEnterState extends State<OtpEnter> {
     var jsonResponse;
-   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+
+   final GlobalKey<ScaffoldState> _scaffoldkey2 = new GlobalKey<ScaffoldState>();
+
   void callSnackBar(String me)
   {
     print("called me for scnack bar");
@@ -31,27 +38,62 @@ class OtpEnter extends StatelessWidget {
       // ),
       // backgroundColor: Colors.blue,
     );
-    _scaffoldkey.currentState.showSnackBar(SnackBar);
+    _scaffoldkey2.currentState.showSnackBar(SnackBar);
   }
 
-//   getCities() async
-// {
-//   var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
-//             print("hitted");
-//             if(response.statusCode==200)
-//               {
-//                  jsonResponse = json.decode(response.body);
-//                 print(jsonResponse);
-//                 global.City=jsonResponse;
-//               }
-// }
+
+
+  
+getCities() async
+{
+  
+  
+    print("in cities");
+    var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
+            print("hitted for city");
+            if(response.statusCode==200)
+              {
+                 jsonResponse = json.decode(response.body);
+                print(jsonResponse);
+                global.City=jsonResponse;
+                print(global.City);
+                print(global.City['cities']);
+                print(global.City['cities'].length);
+                 
+              //  getCenters();
+              }
+
+  
+}
+
+  
+
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   setState(() {
+     print("jp");
+     print(global.now.weekday);
+
+     global.DayAfter=global.now.day+2;
+     print(global.DayAfter);
+      // GetPackages();
+      
+      //  getCenters();
+      
+   });
+  
+  }
+
 
   @override
    Widget build(BuildContext context) {
     SizeConfig().init(context);
     return 
      Scaffold(
-      // key: _scaffoldkey,
+      key: _scaffoldkey2,
       appBar: new AppBar(
         backgroundColor: Colors.white,
         leading: new IconButton(
@@ -72,7 +114,7 @@ class OtpEnter extends StatelessWidget {
             //  height:44.0,
 
              child:   Text(
-                  "Please enter 6-digit Otp sent to  your mobile number",
+                  "Please enter 4-digit Otp sent to  your mobile number",
                   style: TextStyle(fontSize: SizeConfig.blockSizeVertical*2.6, fontWeight: FontWeight.bold),
                 ),
              
@@ -84,7 +126,7 @@ class OtpEnter extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   new TextFormField(
-                    maxLength: 6,
+                    maxLength: 4,
                     controller: global.OtpEntered,
                     decoration: new InputDecoration(
                       labelText: "Enter your OTP",
@@ -161,6 +203,10 @@ class OtpEnter extends StatelessWidget {
               "s");
 
               print(jsonResponse);
+
+
+            
+
               if(jsonResponse['success']==true)
               {
                 print("true");
@@ -170,13 +216,14 @@ class OtpEnter extends StatelessWidget {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString('token',global.token);
                 // global.isLogged=true;
+                getCities();
                 if(jsonResponse['active']==true)
                 {
                   print("active user");
                   // getCities();
-                Navigator.pushNamed(context, "HomeScreen");
+                // Navigator.pushNamed(context, "HomeScreen");
                 // Navigator.pushNamed(context,"AccountPage");
-                // Navigator.pushNamed(context,"CitiesPage");
+                Navigator.pushNamed(context,"CitiesPage");
                 }
                 else if(jsonResponse['active']==false)
                 {
