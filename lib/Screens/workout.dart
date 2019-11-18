@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 // import '../image.dart';
 import 'package:flutter/rendering.dart';
 // import '../jatin/mQuery.dart';
+import '../Info/variables.dart' as global;
 
 class Workout extends StatefulWidget {
   @override
@@ -135,7 +136,7 @@ class _WorkoutState extends State<Workout> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          'Cult galleria ',
+                           global.SelectedIdName!=null?global.SelectedIdName:"Select Active center",
                           style: TextStyle(
                             color: Colors.black.withOpacity(0.7),
                             fontSize:
@@ -404,7 +405,7 @@ class _WorkoutState extends State<Workout> {
                           fontWeight: FontWeight.w600,
                         )),
                     Text(
-                      'Cult Galleria ',
+                       global.SelectedIdName!=null?global.SelectedIdName:"Select Active center",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
@@ -423,12 +424,18 @@ class _WorkoutState extends State<Workout> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    InkWell(
+                      child: 
                     Text('      All CENTERS',
                         style: TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.w600,
                           fontSize: SizeConfig.blockSizeVertical * 2.6,
                         )),
+                        onTap: (){
+                          Navigator.pushNamed(context, "Centers");
+                        },
+                    ),
                   ],
                 ),
               ),
@@ -658,7 +665,7 @@ class _WorkoutState extends State<Workout> {
                       ),
                     ),
                     Text(
-                      '    Fusion Gym',
+                       global.SelectedIdName!=null?"     "+global.SelectedIdName:"Select Active center",
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.7),
                         fontWeight: FontWeight.w400,

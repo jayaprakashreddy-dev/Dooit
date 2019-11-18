@@ -12,7 +12,7 @@ final TextEditingController MobileNumber =new TextEditingController();
 // bool isLogged=false;
 var token=null;
 var UserName="No User Name";
-var EmailId="No Emal";
+var EmailId="No Email";
 var ReferralCode="No Code";
 var coins="0";
 var City;

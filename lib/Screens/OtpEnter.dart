@@ -236,7 +236,7 @@ getCities() async
               }
               else{
                 // OtpError();
-                // callSnackBar("Please Enter correct OTP");
+                callSnackBar("Please Enter correct OTP");
               }
             }
           

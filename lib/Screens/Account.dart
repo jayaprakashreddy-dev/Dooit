@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dooit/Arrangements/SizeModification.dart';
@@ -269,11 +268,18 @@ class _AccountDetailsState extends State<AccountDetails> {
                       textDirection: TextDirection.ltr,
                       style: TextStyle(fontSize: 20.0),
                     ),
-                     Text(
+                    InkWell(
+                      child:                     Text(
                       'Sign out',
                       textDirection: TextDirection.ltr,
                       style: TextStyle(fontSize: 20.0),
                     ),
+                    onTap: (){
+                       global.token=null;
+                                Navigator.pushNamed(context,"NumberEntry");
+                                
+                    },
+                    )
                   ],
                 ),
                 Column(
@@ -307,20 +313,22 @@ class _AccountDetailsState extends State<AccountDetails> {
                         }
                       },
                     ),
-                    //  IconButton(
-                    //   // icon: Icon(
-                    //   //   Icons.phone,
-                    //   //   size: 26.0,
-                    //   // ),
-                    //   // tooltip: 'Contact us',
-                    //   onPressed: ()async {
-                    //   //   print("clicked for call");
-                    //   //   // setState(() {});
-                    //   //   if (await canLaunch("tel:919010590693")) {
-                    //   //  await launch("tel:919010590693");
-                    //   //   }
-                    //   },
-                    // ),
+                    IconButton(
+                              icon: Icon(
+                                Icons.power_settings_new,
+                                size: 26.0,
+                              ),
+                              tooltip: 'Sign Out',
+                              onPressed: () async {
+                                print("jp   clicked for Sign_Out");
+                                global.token=null;
+                                Navigator.pushNamed(context,"NumberEntry");
+                                // setState(() {});
+                                // if (await canLaunch("tel:919010590693")) {
+                                //   await launch("tel:919010590693");
+                                // }
+                              },
+                            ),
                   ],
                 )
               ],

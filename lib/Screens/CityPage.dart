@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dooit/Arrangements/ShowImage.dart';
@@ -17,126 +15,52 @@ class City extends StatefulWidget {
 class _CityState extends State<City> {
    var jsonResponse;
    var c;
+   bool isLoading=false;
 
- 
-
-
-getCenters() async
-{
- 
-    print("in get centers");
-    print(global.token);
-    var response =await http.get("http://34.93.104.9:3000/api/account/getcenters?city=${global.SelectedCity.toString()}",
-    headers:{
-      // "Content-type": "application/x-www-form-urlencoded",
-      // "city":global.City.toString(),
-    "token":global.token} 
-    );
-            print("hitted for center");
-            if(response.statusCode==200)
-              {
-                print("response success");
-                 jsonResponse = json.decode(response.body);
-                print(jsonResponse);
-                global.centers=jsonResponse;
-                print(global.centers);
-                print(global.centers.length);
-                // SharedPreferences prefs = await SharedPreferences.getInstance();
-                // prefs.setString('centers',global.centers.toString());
-                GetPackages();
-              }
-              else if(response.statusCode==404)
-              {
-                print("response unsucess");
-              }
-  
-  
-}
-
-  GetPackages()async{
-    
-       Map data={
-       "workplaceid":global.SelectedId.toString(),
-       "category":"silver",
-       "ptype":"standard"
-     };
-            print("get packages");
-            var response =await http.post("http://34.93.104.9:3000/api/account/getpackages",body: data,headers:{
-              // "Content-type": "application/x-www-form-urlencoded",
-              "token":global.token});
-            print("aftrer");
-            if(response.statusCode==200)
-            {
-               jsonResponse = json.decode(response.body);
-              // jsonData=json
-              print(
-              "s");
-              print(global.token);
-              print(jsonResponse);
-              if(jsonResponse['success']==true)
-              {
-                print("true");
-                // global.token=jsonResponse['packages'];
-                // print(global.token);
-                global.Packages=jsonResponse['packages'];
-                print(global.Packages.length);
-                // SharedPreferences prefs = await SharedPreferences.getInstance();
-                // prefs.setStringList('packages',global.Packages);
-              }
-
-            }
-  
-
-    
-    
-  }
-
-
-  
-  @override
+ @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  
+    getCities();
      print("jp");
-     print(global.now.weekday);
+    //  print(global.now.weekday);
 
-     global.DayAfter=global.now.day+2;
-     print(global.DayAfter);
-      // GetPackages();
-      // getCities();
-       getCenters();
-      
-  
+    //  global.DayAfter=global.now.day+2;
+    //  print(global.DayAfter);
+
   
   }
 
-// getCities() async
-// {
-//   setState(() async{
-//     var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
-//             print("hitted");
-//             if(response.statusCode==200)
-//               {
-//                  jsonResponse = json.decode(response.body);
-//                 print(jsonResponse);
-//                 global.City=jsonResponse;
-//                 print(global.City);
-//                 // global.SelectedId=global.SelectedCity['_id'].toString();
-//                 print(global.City['cities']);
-//                 print(global.City['cities'].length);
-//               }
-//   });
   
-// }
+ 
+getCities() async
+{
+  setState(() async{
+
+                isLoading=true;
+  });
+    var response =await http.get("http://34.93.104.9:3000/api/account/getcities",headers:{"Content-type": "application/x-www-form-urlencoded","token":global.token} );
+            print("hitted");
+            if(response.statusCode==200)
+              {
+                 jsonResponse = json.decode(response.body);
+                print(jsonResponse);
+                global.City=jsonResponse;
+                print(global.City);
+                // global.SelectedId=global.SelectedCity['_id'].toString();
+                print(global.City['cities']);
+                print(global.City['cities'].length);
+              }
+              setState(() async{
+
+                isLoading=false;
+  });
+  
+}
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: (){
-        Navigator.popAndPushNamed(context,"HomeScreen");
-      },
-   child: new Scaffold(
+    return  new Scaffold(
       appBar: new AppBar(
         
         // title:
@@ -149,7 +73,12 @@ getCenters() async
           },
         ),
       ),
-      body:ListView(
+      body:
+      WillPopScope(
+      onWillPop: (){
+        Navigator.popAndPushNamed(context,"HomeScreen");
+      },
+   child:ListView(
         children: <Widget>[
            SizedBox(
             height: MediaQuery.of(context).size.height/10,
@@ -205,7 +134,15 @@ getCenters() async
      SizedBox(
        height: MediaQuery.of(context).size.height*8/10,
     
-            child:  ListView.builder(
+            child: global.City==null?Center(
+           child: RaisedButton(
+              
+              child: Text("Refresh"),
+              onPressed: (){
+                // Navigator.pushNamed(context, "CitiesPage");
+                City();
+              },)
+            ): ListView.builder(
                   // controller: _scrollController,
                   itemCount: global.City['cities'].length,
                   itemBuilder: (context, index) {
@@ -259,37 +196,25 @@ getCenters() async
                     ));
                   },
                 ),
-        
-    // // ListView.separated(
-    // //           itemCount: global.City['cities'].length,
-    // //           separatorBuilder: (context, index) {
-    // //             return Divider(height: 10,);
-    // //           },
-    // //           itemBuilder: (context, index) {
-    // //             return RaisedButton(
-    // //               color: Colors.white,
-    // //               child:  ListTile(
-    // //               leading: ShowImage("cityLogo"),
-    // //               title: Text(
-    // //                 global.City['cities'][index].toString(),
-    // //                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-    // //               ),
-    // //               // subtitle: Text(global.City['cities'].toString()),
-                 
-    // //             ),
-    // //             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-    // //             onPressed: (){
-    // //               global.UserCity=global.City['cities'][index].toString();
-    // //               print("user's city is "+global.City['cities'][index].toString());
-    // //               Navigator.pushNamed(context,"HomeScreen");
-
-    // //             },
-    // //             );  
-    // //           },
-              
-    // //         )  
-      )
+  
+      ),
+      isLoading
+            ? Container(
+              child: Text("Loading"),
+                // width: MediaQuery.of(context).size.width,
+                // padding: EdgeInsets.all(5),
+                // color: Colors.yellowAccent,
+                // child: Text(
+                //   'Loading',
+                //   textAlign: TextAlign.center,
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+              )
+            : Container()
        ],
+      ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
@@ -298,15 +223,15 @@ getCenters() async
         ),
         backgroundColor: Colors.red,
         onPressed: () async{
-          getCenters();
+          // getCenters();
           Navigator.pushNamed(context, "HomeScreen");
         },
 
       )
       
-      )
+      );
 
-    );
+    // );
   }
 }
      
